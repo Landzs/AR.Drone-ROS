@@ -31,8 +31,8 @@
 #include "gazebo/physics/physics.hh"
 
 static const double EARTH_RADIUS = 6371000.0;
-static const double DEFAULT_REFERENCE_LATITUDE  = 49.9;
-static const double DEFAULT_REFERENCE_LONGITUDE = 8.9;
+static const double DEFAULT_REFERENCE_LATITUDE  = 59.406705;
+static const double DEFAULT_REFERENCE_LONGITUDE = 17.956840;
 static const double DEFAULT_REFERENCE_HEADING   = 0.0;
 static const double DEFAULT_REFERENCE_ALTITUDE  = 0.0;
 
@@ -63,16 +63,16 @@ void GazeboRosGps::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   else
     namespace_ = _sdf->GetElement("robotNamespace")->Get<std::string>() + "/";
 
-  if (!_sdf->HasElement("bodyName"))
-  {
-    link = _model->GetLink();
-    link_name_ = link->GetName();
-  }
-  else {
-    link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
-    link = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link_name_));
-  }
-
+  // if (!_sdf->HasElement("bodyName"))
+  // {
+  //   link = _model->GetLink();
+  //   link_name_ = link->GetName();
+  // }
+  // else {
+  //   link_name_ = _sdf->GetElement("bodyName")->Get<std::string>();
+  //   link = boost::dynamic_pointer_cast<physics::Link>(world->GetEntity(link_name_));
+  // }
+  link =  _model->GetChildLink("base_link");
   if (!link)
   {
     ROS_FATAL("GazeboRosGps plugin error: bodyName: %s does not exist\n", link_name_.c_str());
